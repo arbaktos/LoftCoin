@@ -1,16 +1,45 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/ic_launcher_background</item>
-        <item name="colorOnPrimary">@android:color/white</item>
+
+    <attr name="buttonWelcome" format="reference"/>
+    <attr name="walletCardBackground" format="color|reference"/>
+    <attr name="walletCardWidth" format="dimension|reference"/>
+    <attr name="walletCardHeight" format="dimension|reference"/>
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="colorPrimary">@color/dark2</item>
         <item name="colorSecondary">@color/grey_blue</item>
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="colorPrimaryVariant">@color/dark3</item>
+        <item name="colorOnSurface">@android:color/white</item>
+
         <item name="android:colorBackground">?attr/colorPrimary</item>
-        <item name="buttonWelcome">@style/Widget.AppTheme.Button.Welcome</item>
+
         <item name="textAppearanceHeadline1">@style/TextAppearance.AppTheme.H1</item>
         <item name="textAppearanceHeadline2">@style/TextAppearance.AppTheme.H2</item>
         <item name="textAppearanceHeadline3">@style/TextAppearance.AppTheme.H3</item>
         <item name="textAppearanceHeadline4">@style/TextAppearance.AppTheme.H4</item>
+
+        <item name="actionBarTheme">@style/AppTheme.AppBarOverlay</item>
+        <item name="actionBarPopupTheme">@style/AppTheme.PopupOverlay</item>
+
+        <item name="bottomNavigationStyle">@style/AppTheme.BottomNavigationView</item>
+
+<!--        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>-->
+        <item name="buttonWelcome">@style/Widget.AppTheme.Button.Welcome</item>
+        <item name="walletCardBackground">@color/dark4</item>
+        <item name="walletCardWidth">240dp</item>
+        <item name="walletCardHeight">160dp</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
+        <item name="android:background">?attr/colorPrimary</item>
+    </style>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light"/>
+
+    <style name="AppTheme.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="android:background">?attr/colorPrimaryVariant</item>
+        <item name="itemIconTint">@color/bottom_nav_icon_tint</item>
+        <item name="itemTextColor">@color/bottom_nav_icon_tint</item>
     </style>
 
     <style name="Widget.AppTheme.Button.Welcome" parent="Widget.MaterialComponents.TextView">
@@ -28,8 +57,6 @@
         <item name="android:layout_marginBottom">64dp</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
-
-    <attr name="buttonWelcome" format="reference"/>
 
     <style name="TextAppearance.AppTheme" parent="TextAppearance.MaterialComponents.Body1"/>
     <style name="TextAppearance.AppTheme.H1">

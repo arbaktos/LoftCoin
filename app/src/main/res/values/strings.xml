@@ -8,6 +8,9 @@
     <string name="welcome_text1">Покупай когда дёшево, продавай когда дорого</string>
     <string name="welcome_text2">Следи за курсом валют и вовремя реагируй на изменения динамики цен</string>
     <string name="welcome_text3">Узнай сколько эфира в одном биткоине</string>
+    <string name="rate">Курс</string>
+    <string name="wallets">Кошельки</string>
+    <string name="converter">Конвертер</string>
 
 
 </resources>
