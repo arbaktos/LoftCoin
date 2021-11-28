@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_nav_graph"
+    app:startDestination="@id/walletsFragment">
+
+    <fragment
+        android:id="@+id/walletsFragment"
+        android:name="com.example.loftcoin.ui.wallets.WalletsFragment"
+        android:label="@string/wallets" />
+    <fragment
+        android:id="@+id/ratesFragment"
+        android:name="com.example.loftcoin.ui.rates.RatesFragment"
+        android:label="@string/rate" />
+    <fragment
+        android:id="@+id/converterFragment"
+        android:name="com.example.loftcoin.ui.converter.ConverterFragment"
+        android:label="@string/converter" />
+</navigation>
