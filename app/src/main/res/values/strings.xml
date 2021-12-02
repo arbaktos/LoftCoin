@@ -11,6 +11,7 @@
     <string name="rate">Курс</string>
     <string name="wallets">Кошельки</string>
     <string name="converter">Конвертер</string>
+    <string name="general_analysis">Общий анализ</string>
 
 
 </resources>
