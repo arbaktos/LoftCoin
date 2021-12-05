@@ -11,7 +11,7 @@
     <fragment
         android:id="@+id/ratesFragment"
         android:name="com.example.loftcoin.ui.rates.RatesFragment"
-        android:label="@string/general_analysis" />
+        android:label="@string/rate" />
     <fragment
         android:id="@+id/converterFragment"
         android:name="com.example.loftcoin.ui.converter.ConverterFragment"

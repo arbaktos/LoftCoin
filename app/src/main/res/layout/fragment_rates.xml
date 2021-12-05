@@ -4,38 +4,6 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <Toolbar
-        android:id="@+id/rates_toolbar"
-        android:layout_width="match_parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_height="?attr/actionBarSize"
-        app:layout_constraintTop_toTopOf="parent"
-        app:contentInsetStart="0dp">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/general_analysis"
-            android:fontFamily="sans-serif-medium"
-            android:textStyle="normal"
-            android:textSize="24sp"
-            android:paddingStart="20dp"
-            android:gravity="start|center_vertical"
-            android:textColor="#ffffff"/>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:src="@drawable/ic_dollar"
-            app:tint="@android:color/white"/>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:src="@drawable/ic_sort"
-            app:tint="@android:color/white"/>
-    </Toolbar>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rates_recycler"
         android:layout_marginTop="?attr/actionBarSize"

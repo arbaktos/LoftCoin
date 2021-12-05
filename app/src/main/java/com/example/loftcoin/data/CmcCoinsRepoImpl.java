@@ -1,11 +1,8 @@
 package com.example.loftcoin.data;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import com.example.loftcoin.BuildConfig;
-import com.google.auto.value.AutoValue;
 import com.squareup.moshi.Moshi;
 
 import java.io.IOException;

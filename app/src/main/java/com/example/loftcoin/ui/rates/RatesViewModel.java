@@ -10,15 +10,16 @@ import com.example.loftcoin.data.Coin;
 import com.example.loftcoin.data.CoinsRepo;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-public class RatesViewmodel extends ViewModel {
+public class RatesViewModel extends ViewModel {
 
-    private final MutableLiveData<List<? extends Coin>> coins = new MutableLiveData<>();
+    private final MutableLiveData<List<Coin>> coins = new MutableLiveData<>();
 
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
@@ -26,20 +27,20 @@ public class RatesViewmodel extends ViewModel {
 
     private Future<?> future;
 
-    public RatesViewmodel() {
+    public RatesViewModel() {
         this.repo = new CmcCoinsRepoImpl();
         refresh();
     }
 
     @NonNull
-    LiveData<List<? extends Coin>> coins() {
+    LiveData<List<Coin>> coins() {
         return coins;
     }
 
     final void refresh() {
         future = executor.submit( () -> {
             try {
-                this.coins.postValue(repo.getListings("USD"));
+                this.coins.postValue(new ArrayList<>(repo.getListings("USD")));
             } catch (IOException e) {
                 e.printStackTrace();
             }

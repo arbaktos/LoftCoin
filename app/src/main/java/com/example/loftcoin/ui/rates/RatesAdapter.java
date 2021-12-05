@@ -1,47 +1,51 @@
 package com.example.loftcoin.ui.rates;
 
+import android.content.Context;
+import android.provider.Telephony;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.loftcoin.R;
 import com.example.loftcoin.data.Coin;
 import com.example.loftcoin.databinding.RatesItemBinding;
 
 import java.util.List;
+import java.util.Objects;
 
-public class RatesAdapter extends RecyclerView.Adapter<RatesAdapter.CoinViewHolder> {
+public class RatesAdapter extends ListAdapter<Coin, RatesAdapter.ViewHolder> {
 
-    private LayoutInflater inflater;
+    LayoutInflater inflater;
 
-    private final List<? extends Coin> coins;
+    RatesAdapter() {
+        super(new DiffUtil.ItemCallback<Coin>() {
+            @Override
+            public boolean areItemsTheSame(@NonNull Coin oldItem, @NonNull Coin newItem) {
+                return oldItem.id() == newItem.id();
+            }
 
-    public RatesAdapter(List<? extends Coin> coins) {
-        setHasStableIds(true);
-        this.coins = coins;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return coins.get(position).id();
+            @Override
+            public boolean areContentsTheSame(@NonNull Coin oldItem, @NonNull Coin newItem) {
+                return Objects.equals(oldItem, newItem);
+            }
+        });
     }
 
     @NonNull
     @Override
-    public CoinViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new CoinViewHolder(RatesItemBinding.inflate(inflater, parent, false));
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ViewHolder(RatesItemBinding.inflate(inflater, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CoinViewHolder holder, int position) {
-        holder.bind(coins.get(position));
-    }
-
-    @Override
-    public int getItemCount() {
-        return coins.size();
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.binding.symbol.setText(getItem(position).symbol());
     }
 
     @Override
@@ -50,20 +54,13 @@ public class RatesAdapter extends RecyclerView.Adapter<RatesAdapter.CoinViewHold
         inflater = LayoutInflater.from(recyclerView.getContext());
     }
 
-    class CoinViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private final RatesItemBinding binding;
 
-        public CoinViewHolder(@NonNull RatesItemBinding binding) {
+        public ViewHolder(RatesItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-        }
-
-        void bind(Coin coin) {
-
-            binding.symbol.setText(coin.symbol());
-//            binding.priceDollar.setText(coin.price());
-//            binding.changePercent.setText(coin.percent_change_1h());
         }
     }
 }
