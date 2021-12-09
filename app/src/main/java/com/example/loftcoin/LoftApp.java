@@ -5,7 +5,11 @@ import android.os.StrictMode;
 
 public class LoftApp extends Application {
 
-    private AppComponent component;
+    private BaseComponent component;
+
+    public BaseComponent getComponent() {
+        return component;
+    }
 
     @Override
     public void onCreate() {

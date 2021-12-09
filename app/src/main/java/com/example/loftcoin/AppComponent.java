@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Build;
 
+import com.example.loftcoin.data.CoinsRepo;
+import com.example.loftcoin.data.DataModule;
 import com.example.loftcoin.ui.widget.AppModule;
 
 import javax.inject.Singleton;
@@ -14,12 +16,12 @@ import dagger.Component;
 @Singleton
 @Component (
         modules = {
-                AppModule.class
+                AppModule.class,
+                DataModule.class
         }
 )
-public abstract class AppComponent {
+abstract class AppComponent implements BaseComponent {
 
-    abstract Context context();
 
     @Component.Builder
     static abstract class Builder {

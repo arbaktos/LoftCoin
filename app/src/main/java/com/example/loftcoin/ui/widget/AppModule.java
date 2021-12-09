@@ -15,7 +15,7 @@ public abstract class AppModule {
 
     @Singleton
     @Provides
-    static Context context (@NonNull Application app) {
+    public static Context context (@NonNull Application app) {
         return app.getApplicationContext();
     }
 }
