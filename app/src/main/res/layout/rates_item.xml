@@ -3,15 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:minHeight="?attr/listPreferredItemHeight"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    >
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingStart="24dp"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -31,7 +33,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/icon"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="BTC" />
+        tools:text="@sample/coins.json/data/symbol" />
 
     <TextView
         android:id="@+id/price_dollar"
@@ -45,7 +47,7 @@
         android:textColor="@android:color/white"
         android:textSize="16sp"
         android:textStyle="bold"
-        tools:text="4 808,00 $" />
+        tools:text="@sample/coins.json/data/quote/USD/price" />
 
     <TextView
         android:id="@+id/change_percent"
@@ -62,6 +64,6 @@
         android:textColor="@color/weird_green"
         android:textSize="14sp"
         android:textStyle="normal"
-        tools:text="+9,29%" />
+        tools:text="@sample/coins.json/data/quote/USD/percent_change_24h" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

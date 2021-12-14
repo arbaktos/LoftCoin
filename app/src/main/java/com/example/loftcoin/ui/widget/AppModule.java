@@ -5,6 +5,10 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -17,5 +21,13 @@ public abstract class AppModule {
     @Provides
     public static Context context (@NonNull Application app) {
         return app.getApplicationContext();
+    }
+
+
+    @Provides
+    @Singleton
+    static ExecutorService ioExecutor() {
+        int poolSize = Runtime.getRuntime().availableProcessors() * 2 + 1;
+        return Executors.newFixedThreadPool(poolSize);
     }
 }

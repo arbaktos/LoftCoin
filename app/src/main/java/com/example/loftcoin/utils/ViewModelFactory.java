@@ -14,13 +14,19 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
     private final Map<Class<?>, Provider<ViewModel>> providers;
 
+    @Inject
     public ViewModelFactory(Map<Class<?>, Provider<ViewModel>> providers) {
         this.providers = providers;
     }
 
     @NonNull
     @Override
-    public <T extends ViewModel> T create(@NonNull Class<T> aClass) {
-        return null;
+    @SuppressWarnings("unchecked")
+    public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+        final Provider<ViewModel> provider = providers.get(modelClass);
+        if (provider != null) {
+            return (T) provider.get();
+        }
+        return super.create(modelClass);
     }
 }

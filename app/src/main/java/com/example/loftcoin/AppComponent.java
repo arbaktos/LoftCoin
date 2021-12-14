@@ -7,6 +7,7 @@ import android.os.Build;
 import com.example.loftcoin.data.CoinsRepo;
 import com.example.loftcoin.data.DataModule;
 import com.example.loftcoin.ui.widget.AppModule;
+import com.example.loftcoin.utils.UtilModule;
 
 import javax.inject.Singleton;
 
@@ -17,7 +18,8 @@ import dagger.Component;
 @Component (
         modules = {
                 AppModule.class,
-                DataModule.class
+                DataModule.class,
+                UtilModule.class
         }
 )
 abstract class AppComponent implements BaseComponent {

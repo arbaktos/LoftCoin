@@ -3,13 +3,16 @@ package com.example.loftcoin;
 import android.content.Context;
 
 import com.example.loftcoin.data.CoinsRepo;
+import com.example.loftcoin.data.CurrencyRepo;
 
 
 public interface BaseComponent {
 
-    abstract Context context();
+    Context context();
 
-    abstract CoinsRepo coinsRepo();
+    CoinsRepo coinsRepo();
 
-    //abstract CurrencyRepo currencysRepo(); TODO
+    CurrencyRepo currencyRepo();
+
+    //ImageLoader imageLoader();
 }

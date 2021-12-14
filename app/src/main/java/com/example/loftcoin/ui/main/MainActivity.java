@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
         final ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        setSupportActionBar(binding.toolbar);
+
         final NavController navController = Navigation.findNavController(this, R.id.nav_controller_container);
         NavigationUI.setupWithNavController(binding.bottomNavMenu, navController);
         NavigationUI.setupWithNavController(binding.toolbar, navController,
@@ -47,6 +49,4 @@ public class MainActivity extends AppCompatActivity {
                         .Builder(binding.bottomNavMenu.getMenu())
                         .build());
     }
-
-
 }
