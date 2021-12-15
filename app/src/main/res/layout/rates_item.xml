@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:minHeight="?attr/listPreferredItemHeight"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    >
 
     <ImageView
         android:id="@+id/icon"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
-        android:paddingStart="24dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:tint="@android:color/white"
         tools:src="@drawable/ic_rate"
-        />
+        tools:tint="@android:color/white" />
 
     <TextView
         android:id="@+id/symbol"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
+        android:textColor="@android:color/white"
         android:paddingStart="16dp"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -31,41 +33,37 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/icon"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="BTC" />
+        tools:text="@sample/coins.json/data/symbol" />
 
-    <LinearLayout
-        android:id="@+id/rates_column"
+    <TextView
+        android:id="@+id/price_dollar"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:paddingTop="14dp"
-        android:paddingBottom="12dp"
         android:paddingEnd="16dp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:text="@sample/coins.json/data/quote/USD/price" />
+
+    <TextView
+        android:id="@+id/change_percent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingEnd="16dp"
+        android:paddingBottom="12dp"
+        android:paddingTop="3dp"
+        app:layout_constraintTop_toBottomOf="@+id/price_dollar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:fontFamily="sans-serif"
         android:gravity="end"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/price_dollar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text = "4 808,00 $"
-            android:fontFamily="sans-serif"
-            android:textStyle="bold"
-            android:textSize="16sp"/>
-        <TextView
-            android:id="@+id/change_percent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:textStyle="normal"
-            android:textSize="14sp"
-            android:textColor="@color/weird_green"
-            android:gravity="end"
-            tools:text="+9,29%"/>
-
-    </LinearLayout>
-
+        android:textColor="@color/weird_green"
+        android:textSize="14sp"
+        android:textStyle="normal"
+        tools:text="@sample/coins.json/data/quote/USD/percent_change_24h" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

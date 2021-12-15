@@ -11,7 +11,13 @@ import androidx.fragment.app.Fragment;
 
 import com.example.loftcoin.databinding.FragmentWalletsBinding;
 
+import javax.inject.Inject;
+
 public class WalletsFragment extends Fragment {
+
+    @Inject
+    public WalletsFragment() {
+    }
 
     FragmentWalletsBinding binding;
     @Nullable

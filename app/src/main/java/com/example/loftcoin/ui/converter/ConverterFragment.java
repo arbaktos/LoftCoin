@@ -12,9 +12,15 @@ import androidx.fragment.app.Fragment;
 import com.example.loftcoin.R;
 import com.example.loftcoin.databinding.FragmentConverterBinding;
 
+import javax.inject.Inject;
+
 public class ConverterFragment extends Fragment {
 
     FragmentConverterBinding binding;
+
+    @Inject
+    public ConverterFragment() {
+    }
 
     @Nullable
     @Override

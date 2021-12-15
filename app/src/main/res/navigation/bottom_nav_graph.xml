@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bottom_nav_graph"
     app:startDestination="@id/walletsFragment">
 
@@ -16,4 +17,9 @@
         android:id="@+id/converterFragment"
         android:name="com.example.loftcoin.ui.converter.ConverterFragment"
         android:label="@string/converter" />
+    <dialog
+        android:id="@+id/currency_dialog"
+        android:name="com.example.loftcoin.ui.currency.CurrencyDialog"
+        tools:layout="@layout/currency_dialog"
+        android:label="CurrencyDialog" />
 </navigation>

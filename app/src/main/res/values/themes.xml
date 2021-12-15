@@ -4,6 +4,8 @@
     <attr name="walletCardBackground" format="color|reference"/>
     <attr name="walletCardWidth" format="dimension|reference"/>
     <attr name="walletCardHeight" format="dimension|reference"/>
+    <attr name="textNegative" format="color|reference"/>
+    <attr name="textPositive" format="color|reference"/>
 
     <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
         <item name="colorPrimary">@color/dark2</item>
@@ -12,6 +14,8 @@
         <item name="colorOnSurface">@android:color/white</item>
 
         <item name="android:colorBackground">?attr/colorPrimary</item>
+
+        <item name="materialAlertDialogTheme">@style/AppTheme.AlertDialog</item>
 
         <item name="textAppearanceHeadline1">@style/TextAppearance.AppTheme.H1</item>
         <item name="textAppearanceHeadline2">@style/TextAppearance.AppTheme.H2</item>
@@ -28,10 +32,16 @@
         <item name="walletCardBackground">@color/dark4</item>
         <item name="walletCardWidth">240dp</item>
         <item name="walletCardHeight">160dp</item>
+        <item name="textNegative">@color/watermelon</item>
+        <item name="textPositive">@color/weird_green</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
         <item name="android:background">?attr/colorPrimary</item>
+    </style>
+
+    <style name="AppTheme.AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="colorSurface">@color/dark4</item>
     </style>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light"/>

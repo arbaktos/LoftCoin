@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">LoftCoin</string>
-    //Welcome
+    <!-- Welcome -->
     <string name="begin_work">НАЧАТЬ РАБОТУ</string>
     <string name="welcome_title1">Покупка и продажа</string>
     <string name="welcome_title2">Курс криптовалют</string>
@@ -8,12 +8,20 @@
     <string name="welcome_text1">Покупай когда дёшево, продавай когда дорого</string>
     <string name="welcome_text2">Следи за курсом валют и вовремя реагируй на изменения динамики цен</string>
     <string name="welcome_text3">Узнай сколько эфира в одном биткоине</string>
+
+    <!-- Main bottom menu -->
     <string name="rate">Курс</string>
     <string name="wallets">Кошельки</string>
     <string name="converter">Конвертер</string>
+
+    <!-- Rates fragment -->
     <string name="general_analysis">Общий анализ</string>
-    <string name="currency_chage">Выбор валюты</string>
+    <string name="choose_currency">Выбор валюты</string>
     <string name="sorting">Сортировка</string>
 
+    <!-- Currency dialog-->
+    <string name="usd">Доллар</string>
+    <string name="eur">Евро</string>
+    <string name="rub">Рубль</string>
 
 </resources>
