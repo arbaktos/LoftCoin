@@ -1,12 +1,35 @@
 package com.example.loftcoin.utils;
 
 import android.os.Build;
+import android.os.LocaleList;
 
 import androidx.annotation.NonNull;
 
 import java.text.NumberFormat;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
-public class PriceFormatter implements Formatter<Double> {
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
+class PriceFormatter implements Formatter<Double> {
+
+    private static final Map<String, Locale> LOCALES = new HashMap<>();
+
+    static {
+        LOCALES.put("RUB", new Locale("ru", "RU"));
+        LOCALES.put("EUR", Locale.GERMANY);
+    }
+
+    @Inject
+    public PriceFormatter() {
+    }
+
+    public String format(@NonNull String currency, @NonNull Double value) {
+        return format(value);
+    }
 
     @NonNull
     @Override

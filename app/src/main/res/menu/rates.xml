@@ -12,7 +12,7 @@
          />
 
     <item
-        android:id="@+id/sort"
+        android:id="@+id/sort_dialog"
         android:icon="@drawable/ic_sort"
         android:title="@string/sorting"
         app:showAsAction="always"/>

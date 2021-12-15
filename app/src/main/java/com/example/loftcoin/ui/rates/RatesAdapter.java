@@ -21,6 +21,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
+import javax.inject.Inject;
+
 public class RatesAdapter extends ListAdapter<Coin, RatesAdapter.ViewHolder> {
 
     LayoutInflater inflater;
@@ -29,6 +31,7 @@ public class RatesAdapter extends ListAdapter<Coin, RatesAdapter.ViewHolder> {
     private Formatter<Double> priceFormatter;
     private Formatter<Double> percentFormatter;
 
+    @Inject
     RatesAdapter(Formatter<Double> priceFormatter, Formatter<Double> percentFormatter) {
         super(new DiffUtil.ItemCallback<Coin>() {
             @Override

@@ -20,7 +20,6 @@ import com.example.loftcoin.BaseComponent;
 import com.example.loftcoin.R;
 import com.example.loftcoin.databinding.FragmentRatesBinding;
 import com.example.loftcoin.utils.PercentFormatter;
-import com.example.loftcoin.utils.PriceFormatter;
 
 import javax.inject.Inject;
 
@@ -47,7 +46,7 @@ public class RatesFragment extends Fragment{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(this, component.viewModelFactory()).get(RatesViewModel.class);
-        adapter = new RatesAdapter(new PriceFormatter(), new PercentFormatter());
+        adapter = new RatesAdapter(, new PercentFormatter());
     }
 
     @Nullable
@@ -85,6 +84,8 @@ public class RatesFragment extends Fragment{
                     .findNavController(this)
                     .navigate(R.id.currency_dialog);
             return true;
+        } else if (R.id.sort_dialog == item.getItemId()) {
+            viewModel.switchSortingOrder();
         }
         return super.onOptionsItemSelected(item);
     }
