@@ -1,12 +1,8 @@
 package com.example.loftcoin;
 
 import android.app.Application;
-import android.content.Context;
-import android.os.Build;
 
-import com.example.loftcoin.data.CoinsRepo;
 import com.example.loftcoin.data.DataModule;
-import com.example.loftcoin.ui.widget.AppModule;
 import com.example.loftcoin.utils.UtilModule;
 
 import javax.inject.Singleton;
@@ -23,7 +19,6 @@ import dagger.Component;
         }
 )
 abstract class AppComponent implements BaseComponent {
-
 
     @Component.Builder
     static abstract class Builder {

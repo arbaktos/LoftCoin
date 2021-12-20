@@ -20,31 +20,11 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
 @Module
 public abstract class DataModule {
-
-    @Provides
-    @Singleton
-    static OkHttpClient httpClient(ExecutorService executor) {
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
-
-        builder.dispatcher(new Dispatcher(executor));
-        builder.addInterceptor(chain -> {
-            final Request request = chain.request();
-            return chain.proceed(request.newBuilder()
-                    .build());
-        });
-
-        if (BuildConfig.DEBUG) {
-            final HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
-            httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS);
-            httpLoggingInterceptor.redactHeader(CoinApi.API_KEY);
-            builder.addInterceptor(httpLoggingInterceptor);
-        }
-        return builder.build();
-    }
 
     @Provides
     static Moshi moshi() {
@@ -79,6 +59,7 @@ public abstract class DataModule {
                 .build());
         builder.baseUrl(BuildConfig.API_END_POINT);
         builder.addConverterFactory(MoshiConverterFactory.create(moshi));
+        builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         return builder.build();
     }
 
@@ -92,4 +73,7 @@ public abstract class DataModule {
 
     @Binds
     abstract CurrencyRepo currencyRepo(CurrencyRepoImpl impl);
+
+    @Binds
+    abstract WalletsRepo walletsRepo(WalletsRepoImpl impl);
 }

@@ -4,14 +4,22 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
 
+import com.example.loftcoin.utils.RxSchedulers;
+
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.Scheduler;
+import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 import timber.log.Timber;
@@ -20,61 +28,53 @@ import timber.log.Timber;
 class CmcCoinsRepoImpl implements CoinsRepo {
 
     private final CoinApi api;
-    private ExecutorService executor;
 
     private final LoftDatabase db;
+    private RxSchedulers schedulers;
 
     @Inject
-    public CmcCoinsRepoImpl(CoinApi api, ExecutorService executor, LoftDatabase db) {
+    public CmcCoinsRepoImpl(CoinApi api, LoftDatabase db, RxSchedulers schedulers) {
 
         this.api = api;
         this.db = db;
-        this.executor = executor;
+        this.schedulers = schedulers;
     }
 
     @NonNull
     @Override
-    public LiveData<List<Coin>> listings(@NonNull Query query) {
-        fetchFromNetworkIfNecessary(query);
-        return fetchFromDb(query);
+    public Observable<List<Coin>> listings(@NonNull Query query) {
+        return Observable
+                .fromCallable(() -> query.forceUpdate() || db.coinsDao().coinsCount() == 0)
+                .switchMap((f) -> f ? api.getListing(query.currency()) : Observable.empty())
+                .map((listings) -> mapToRoomCoins(query, listings.data()))
+                .doOnNext((coins) -> db.coinsDao().insert(coins))
+                .switchMap((coins) -> fetchFromDb(query))
+                .switchIfEmpty(fetchFromDb(query))
+                .<List<Coin>>map(Collections::unmodifiableList)
+                .subscribeOn(schedulers.io())
+                ;
     }
 
-    private LiveData<List<Coin>> fetchFromDb(Query query) {
-        LiveData<List<RoomCoin>> coins;
+    @NonNull
+    @Override
+    public Single<Coin> coin(Currency currency, Long id) {
+        return listings(Query.builder().currency(currency.code()).forceUpdate(false).sortBy(SortBy.RANK).build())
+                .switchMapSingle((coins) -> db.coinsDao().fetchOne(id))
+                .firstOrError()
+                .map((coin) -> coin);
+    }
+
+    private ObservableSource<List<RoomCoin>> fetchFromDb(Query query) {
         if (query.sortBy() == SortBy.PRICE) {
-            coins = db.coinsDao().fetchAllSortByPrice();
+            return db.coinsDao().fetchAllSortByPrice();
         } else {
-            coins = db.coinsDao().fetchAllSortByRank();
+            return db.coinsDao().fetchAllSortByRank();
         }
-        return Transformations.map(coins, ArrayList::new);
     }
 
-    private void fetchFromNetworkIfNecessary(Query query) {
-        executor.submit(() -> {
-            if (query.forceUpdate() || db.coinsDao().coinsCount() == 0) {
-                try {
-                    final Response<Listing> response = api.getListing(query.currency()).execute();
-                    if (response.isSuccessful()) {
-                        final Listing listing = response.body();
-                        if (listing != null) {
-                            saveCoinsIntoDb(query, listing.data());
-                        } else {
-                            final ResponseBody responseBody = response.errorBody();
-                            if (responseBody != null) {
-                                throw new IOException(responseBody.string());
-                            }
-                        }
-                    }
-                } catch (IOException e) {
-                    Timber.e(e);
-                }
-            }
-        });
-    }
-
-    private void saveCoinsIntoDb(Query query, List<? extends Coin> coins) {
+    private List<RoomCoin> mapToRoomCoins(Query query, List<? extends Coin> coins) {
         List<RoomCoin> roomCoins = new ArrayList<>(coins.size());
-        for (Coin coin: coins) {
+        for (Coin coin : coins) {
             roomCoins.add(RoomCoin.create(
                     coin.name(),
                     coin.symbol(),
@@ -84,8 +84,7 @@ class CmcCoinsRepoImpl implements CoinsRepo {
                     query.currency(),
                     coin.id()
             ));
-            db.coinsDao().insert(roomCoins);
         }
+        return roomCoins;
     }
-
 }

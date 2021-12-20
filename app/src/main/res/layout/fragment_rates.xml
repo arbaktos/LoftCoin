@@ -11,7 +11,6 @@
         android:id="@+id/rates_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="?attr/actionBarSize"
         tools:listitem="@layout/rates_item"/>
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

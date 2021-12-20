@@ -23,9 +23,12 @@ import com.example.loftcoin.utils.PercentFormatter;
 
 import javax.inject.Inject;
 
+import io.reactivex.disposables.CompositeDisposable;
 import timber.log.Timber;
 
 public class RatesFragment extends Fragment{
+
+    private final CompositeDisposable disposable = new CompositeDisposable();
 
     private final RatesComponent component;
 
@@ -46,7 +49,7 @@ public class RatesFragment extends Fragment{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(this, component.viewModelFactory()).get(RatesViewModel.class);
-        adapter = new RatesAdapter(, new PercentFormatter());
+        adapter = component.ratesAdapter();
     }
 
     @Nullable
@@ -64,11 +67,8 @@ public class RatesFragment extends Fragment{
         binding.ratesRecycler.setHasFixedSize(true);
         binding.ratesRecycler.swapAdapter(adapter, false);
         binding.refresher.setOnRefreshListener(viewModel::refresh);
-        viewModel.coins().observe(getViewLifecycleOwner(), coins -> {
-            adapter.submitList(coins);
-                });
-        viewModel.isRefreshing().observe(getViewLifecycleOwner(), binding.refresher::setRefreshing);
-        binding.refresher.setProgressViewOffset(false, 56, 140);
+        disposable.add(viewModel.coins().subscribe(adapter::submitList));
+        disposable.add(viewModel.isRefreshing().subscribe(binding.refresher::setRefreshing));
     }
 
     @Override
@@ -93,6 +93,7 @@ public class RatesFragment extends Fragment{
     @Override
     public void onDestroyView() {
         binding.ratesRecycler.swapAdapter(null, false);
+        disposable.clear();
         super.onDestroyView();
     }
 }

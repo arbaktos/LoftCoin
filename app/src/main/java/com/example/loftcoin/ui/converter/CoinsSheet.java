@@ -7,23 +7,25 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.loftcoin.BaseComponent;
 import com.example.loftcoin.R;
-import com.example.loftcoin.databinding.FragmentConverterBinding;
+import com.example.loftcoin.databinding.DialogCurrencyBinding;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import javax.inject.Inject;
 
-public class ConverterFragment extends Fragment {
+public class CoinsSheet extends BottomSheetDialogFragment {
 
-    private ConverterComponent component;
+    private final ConverterComponent component;
+
+    private DialogCurrencyBinding binding;
+
     private ConverterViewModel viewModel;
-    FragmentConverterBinding binding;
 
     @Inject
-    public ConverterFragment(BaseComponent baseComponent) {
+    public CoinsSheet(BaseComponent baseComponent) {
         component = DaggerConverterComponent.builder()
                 .baseComponent(baseComponent)
                 .build();
@@ -39,7 +41,12 @@ public class ConverterFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentConverterBinding.inflate(inflater);
-        return binding.getRoot();
+        return inflater.inflate(R.layout.fragment_converter, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        binding = DialogCurrencyBinding.bind(view);
     }
 }

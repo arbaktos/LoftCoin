@@ -1,9 +1,12 @@
 package com.example.loftcoin.utils;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.LocaleList;
 
 import androidx.annotation.NonNull;
+import androidx.core.os.ConfigurationCompat;
+import androidx.core.os.LocaleListCompat;
 
 import java.text.NumberFormat;
 import java.util.HashMap;
@@ -14,7 +17,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-class PriceFormatter implements Formatter<Double> {
+public class PriceFormatter implements Formatter<Double> {
 
     private static final Map<String, Locale> LOCALES = new HashMap<>();
 
@@ -23,12 +26,22 @@ class PriceFormatter implements Formatter<Double> {
         LOCALES.put("EUR", Locale.GERMANY);
     }
 
+    private final Context context;
+
     @Inject
-    public PriceFormatter() {
+    public PriceFormatter(Context context) {
+        this.context = context;
     }
 
     public String format(@NonNull String currency, @NonNull Double value) {
-        return format(value);
+        Locale locale = LOCALES.get(currency);
+        if (locale == null) {
+            final LocaleListCompat locales = ConfigurationCompat.getLocales(
+                    context.getResources().getConfiguration()
+            );
+            locale = locales.get(0);
+        }
+        return NumberFormat.getCurrencyInstance(locale).format(value);
     }
 
     @NonNull
