@@ -23,6 +23,7 @@ import com.example.loftcoin.BaseComponent;
 import com.example.loftcoin.R;
 import com.example.loftcoin.databinding.FragmentWalletsBinding;
 import com.example.loftcoin.ui.widget.RxRecyclerViews;
+import com.google.android.gms.common.util.CollectionUtils;
 
 import java.util.List;
 
@@ -84,12 +85,19 @@ public class WalletsFragment extends Fragment {
         binding.walletRecycler.setPadding(padding, 0, padding, 0);
         binding.walletRecycler.setClipToPadding(false);
 
+        binding.transactionsRecycler.setAdapter(transactionAdapter);
+        binding.transactionsRecycler
+                .setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
+        binding.transactionsRecycler.setHasFixedSize(true);
+
         binding.walletRecycler.setAdapter(walletsAdapter);
         binding.walletRecycler.setLayoutManager(
                 new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
         binding.walletRecycler.addOnScrollListener(new CarouselScroller());
         disposable.add(viewModel.wallets().subscribe((wallets) -> {
+            Timber.d(String.valueOf(wallets));
             walletsAdapter.submitList(wallets);
+            if (!wallets.isEmpty()) disposable.add(viewModel.transactions().subscribe(transactionAdapter::submitList));
         }));
         disposable.add(viewModel.wallets().map(List::isEmpty).subscribe((isEmpty) -> {
             binding.newWallet.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
@@ -100,12 +108,6 @@ public class WalletsFragment extends Fragment {
                 .subscribe(viewModel::changeWallet)
         );
 
-
-        binding.transactionsRecycler.setAdapter(transactionAdapter);
-        binding.transactionsRecycler
-                .setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
-        binding.transactionsRecycler.setHasFixedSize(true);
-        disposable.add(viewModel.transactions().subscribe(transactionAdapter::submitList));
     }
 
     @Override
@@ -122,9 +124,9 @@ public class WalletsFragment extends Fragment {
     @Override
     public void onDestroyView() {
         walletSnapHelper.attachToRecyclerView(null);
-        disposable.clear();
         binding.walletRecycler.setAdapter(null);
         binding.transactionsRecycler.setAdapter(null);
+        disposable.clear();
         super.onDestroyView();
     }
 

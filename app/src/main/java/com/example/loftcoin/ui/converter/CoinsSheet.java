@@ -1,5 +1,6 @@
 package com.example.loftcoin.ui.converter;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,16 +12,23 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.loftcoin.BaseComponent;
 import com.example.loftcoin.R;
-import com.example.loftcoin.databinding.DialogCurrencyBinding;
+import com.example.loftcoin.databinding.CurrencyDialogBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import javax.inject.Inject;
 
 public class CoinsSheet extends BottomSheetDialogFragment {
 
+
+    public static final String KEY_MODE = "mode";
+    public static final int MODE_FROM = 1;
+    public static final int MODE_TO = 2;
+
     private final ConverterComponent component;
 
-    private DialogCurrencyBinding binding;
+    private LayoutInflater inflater;
+
+    private CurrencyDialogBinding binding;
 
     private ConverterViewModel viewModel;
 
@@ -41,12 +49,12 @@ public class CoinsSheet extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_converter, container, false);
+        return inflater.inflate(R.layout.currency_dialog, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding = DialogCurrencyBinding.bind(view);
+        binding = CurrencyDialogBinding.bind(view);
     }
 }

@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "723415957761",
+    "firebase_url": "https://loft-coin-default-rtdb.firebaseio.com",
     "project_id": "loft-coin",
     "storage_bucket": "loft-coin.appspot.com"
   },

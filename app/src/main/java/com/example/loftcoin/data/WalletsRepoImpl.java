@@ -53,7 +53,7 @@ public class WalletsRepoImpl implements WalletsRepo {
                 .map(QuerySnapshot::getDocuments)
                 .switchMapSingle((documents) -> Observable
                         .fromIterable(documents)
-                        .switchMapSingle((document) -> coinsRepo
+                        .flatMapSingle((document) -> coinsRepo
                                 .coin(currency, document.getLong("coinId"))
                                 .map((coin) -> Wallet.create(
                                         document.getId(),
