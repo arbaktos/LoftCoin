@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 
 import androidx.annotation.NonNull;
 
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
@@ -23,13 +24,48 @@ public class WalletsRepoImpl implements WalletsRepo {
 
 
     private final FirebaseFirestore firestore;
-    private CoinsRepo coinsRepo;
+    private final CoinsRepo coinsRepo;
 
     @Inject
     public WalletsRepoImpl(CoinsRepo coinsRepo) {
         this.coinsRepo = coinsRepo;
         this.firestore = FirebaseFirestore.getInstance();
     }
+//
+//    @SuppressLint("CheckResult")
+//    @NonNull
+//    @Override
+//    public Observable<List<Wallet>> wallets(@NonNull Currency currency) {
+//        return Observable
+//                .<QuerySnapshot>create(emitter -> {
+//                    final ListenerRegistration registration = firestore
+//                            .collection("wallets")
+//                            .orderBy("time", Query.Direction.ASCENDING)
+//                            .addSnapshotListener((snapshots, e) -> {
+//                                if (emitter.isDisposed()) return;
+//                                if (snapshots != null) {
+//                                    emitter.onNext(snapshots);
+//                                } else if (e != null) {
+//                                    emitter.tryOnError(e);
+//                                }
+//                            });
+//                    emitter.setCancellable(registration::remove);
+//                })
+//                .map(QuerySnapshot::getDocuments)
+//                .switchMapSingle((documents) -> Observable
+//                        .fromIterable(documents)
+//                        .flatMapSingle((document) -> coinsRepo
+//                                .coin(currency, Objects.requireNonNull(document
+//                                        .getLong("coinId"), "coinId"))
+//                                .map((coin) -> Wallet.create(
+//                                        document.getId(),
+//                                        coin,
+//                                        document.getDouble("balance")
+//                                ))
+//                        )
+//                        .toList()
+//                );
+//    }
 
     @SuppressLint("CheckResult")
     @NonNull
@@ -37,12 +73,13 @@ public class WalletsRepoImpl implements WalletsRepo {
     public Observable<List<Wallet>> wallets(@NonNull Currency currency) {
         return Observable
                 .<QuerySnapshot>create(emitter -> {
-                    final ListenerRegistration registration = firestore
-                            .collection("wallets")
+                    final ListenerRegistration registration = firestore.collection("wallets")
                             .orderBy("time", Query.Direction.ASCENDING)
                             .addSnapshotListener((value, error) -> {
                                 if (emitter.isDisposed()) return;
-                                if (value != null) emitter.onNext(value);
+                                if (value != null) {
+                                    emitter.onNext(value);
+                                }
                                 else if (error != null) {
                                     Timber.e(error);
                                     emitter.tryOnError(error);
@@ -53,7 +90,7 @@ public class WalletsRepoImpl implements WalletsRepo {
                 .map(QuerySnapshot::getDocuments)
                 .switchMapSingle((documents) -> Observable
                         .fromIterable(documents)
-                        .switchMapSingle((document) -> coinsRepo
+                        .flatMapSingle((document) -> coinsRepo
                                 .coin(currency, document.getLong("coinId"))
                                 .map((coin) -> Wallet.create(
                                         document.getId(),
@@ -63,6 +100,7 @@ public class WalletsRepoImpl implements WalletsRepo {
                         )
                         .toList()
                 );
+
     }
 
     @NonNull

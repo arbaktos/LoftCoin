@@ -30,17 +30,38 @@ public class WalletViewModel extends ViewModel {
     private final Observable<List<Wallet>> wallets;
 
     private final RxSchedulers schedulers;
+    private final WalletsRepo walletsRepo;
+    private final CurrencyRepo currencyRepo;
+
+//    @Inject
+//    public WalletViewModel(WalletsRepo walletsRepo, CurrencyRepo currencyRepo, RxSchedulers schedulers) {
+//        this.schedulers = schedulers;
+//        wallets = currencyRepo.currency()
+//                .switchMap((walletsRepo::wallets))
+//                .replay(1)
+//                .autoConnect();
+//
+//        transactions = wallets
+//                .switchMap((wallets) -> walletPosition.map(wallets::get))
+//                .switchMap(walletsRepo::transactions)
+//                .replay(1)
+//                .autoConnect();
+//    }
 
     @Inject
-    public WalletViewModel(WalletsRepo walletsRepo, CurrencyRepo currencyRepo, RxSchedulers schedulers) {
+    WalletViewModel(WalletsRepo walletsRepo, CurrencyRepo currencyRepo, RxSchedulers schedulers) {
+        this.walletsRepo = walletsRepo;
+        this.currencyRepo = currencyRepo;
         this.schedulers = schedulers;
         wallets = currencyRepo.currency()
-                .switchMap((walletsRepo::wallets))
+                .switchMap(walletsRepo::wallets)
                 .replay(1)
-                .autoConnect();
+                .autoConnect()
+                .doOnNext((wallets) -> Timber.d("%d", wallets.size()));
 
         transactions = wallets
-                .switchMap((wallets) -> walletPosition.map(wallets::get))
+                .switchMap((wallets) -> walletPosition
+                        .map(wallets::get))
                 .switchMap(walletsRepo::transactions)
                 .replay(1)
                 .autoConnect();
