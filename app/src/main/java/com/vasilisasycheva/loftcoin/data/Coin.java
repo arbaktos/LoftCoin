@@ -1,6 +1,7 @@
 package com.vasilisasycheva.loftcoin.data;
 
 public interface Coin {
+
     int id();
 
     String name();

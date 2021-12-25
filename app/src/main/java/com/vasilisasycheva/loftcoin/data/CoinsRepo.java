@@ -28,8 +28,8 @@ public interface CoinsRepo {
                     .forceUpdate(true);
         }
         public abstract String currency();
-        abstract boolean forceUpdate();
-        abstract SortBy sortBy();
+        public abstract boolean forceUpdate();
+        public abstract SortBy sortBy();
 
         @AutoValue.Builder
         public abstract static class Builder {
